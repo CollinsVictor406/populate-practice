@@ -3,6 +3,10 @@ const dotenv = require('dotenv');
 const notFound = require('./not-found');
 dotenv.config();
 const express = require('express');
+
+const userRoute = require("./routes/userrouter")
+const postRoute = require("./routes/postroute")
+
 const app = express();
 const PORT =  3000;
 
@@ -12,7 +16,10 @@ app.use(express.json());
 app.get('/',(req,res)=>{
     res.json({message:"Welcome to the Blog API"})
 });
+app.use("/api/v1",userRoute)
+app.use("/api/v1",postRoute)
 app.use(notFound);
+
 
 connectDB(process.env.MONGO_URI).then(() => {
     app.listen(PORT,()=>{
